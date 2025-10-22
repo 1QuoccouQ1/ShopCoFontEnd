@@ -3,13 +3,16 @@ import CheckoutForm from "./components/checkout-form";
 import OrderSummary from "./components/order-summary";
 import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../../hooks/useCart/useCart";
 
 export default function CheckoutPage() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const navigate = useNavigate();
+  const { clearCart } = useCart();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -61,7 +64,7 @@ export default function CheckoutPage() {
           phone: formData.phone,
           address: formData.address,
           note: formData.note || "",
-          paymentMethod: formData.paymentMethod || "cod",
+          paymentMethod: paymentMethod,
           userId: user ? user.id : null,
           cartItems: cartItems.map((item) => ({
             product_name: item.name,
@@ -107,11 +110,16 @@ export default function CheckoutPage() {
         localStorage.setItem("guestOrders", JSON.stringify(localOrders));
       }
 
-      localStorage.removeItem("cart");
       setCartItems([]);
 
       sessionStorage.setItem("orderDetails", JSON.stringify(data));
-      navigate("/Success-Checkout");
+
+      if (paymentMethod === "cod") {
+        clearCart();
+        navigate("/Success-Checkout");
+      } else if (paymentMethod === "QRcode") {
+        navigate("/Pending-Checkout");
+      }
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
@@ -140,7 +148,11 @@ export default function CheckoutPage() {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Checkout Form */}
           <div className="lg:col-span-2">
-            <CheckoutForm onFormChange={setFormData} />
+            <CheckoutForm
+              onFormChange={setFormData}
+              paymentMethod={paymentMethod}
+              setPaymentMethod={setPaymentMethod}
+            />
           </div>
 
           {/* Order Summary */}

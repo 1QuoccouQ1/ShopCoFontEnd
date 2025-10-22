@@ -9,6 +9,7 @@ import CheckoutPage from "./page/Checkout/Checkout.jsx";
 import OrdersPage from "./page/Order/Order.jsx";
 import OrderDetailsPage from "./page/Order/Details/Details.jsx";
 import OrderSuccessPage from "./page/Checkout/success/Success.jsx";
+import PendingPaymentPage from "./page/Checkout/pending/Pending.jsx";
 import ReactDOM from "react-dom/client";
 import React from "react";
 import CartProvider from "./context/CartProvider.jsx";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/Success-Checkout",
         element: <OrderSuccessPage />,
+      },
+      {
+        path: "/Pending-Checkout",
+        element: <PendingPaymentPage />,
       },
       {
         path: "/DetailProduct/:id",

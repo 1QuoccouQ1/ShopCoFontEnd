@@ -16,6 +16,7 @@ export default function OrderSuccessPage() {
   // ✅ Lấy dữ liệu từ sessionStorage
   useEffect(() => {
     const stored = sessionStorage.getItem("orderDetails");
+    console.log("Stored order details:", stored);
     if (stored) {
       try {
         setOrderDetails(JSON.parse(stored));

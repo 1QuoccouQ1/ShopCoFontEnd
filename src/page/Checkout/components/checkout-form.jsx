@@ -7,16 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CreditCard, Wallet } from "lucide-react";
 
-export default function CheckoutForm({ onFormChange }) {
-  const [paymentMethod, setPaymentMethod] = useState("cod");
-
+export default function CheckoutForm({ onFormChange ,paymentMethod, setPaymentMethod}) {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
     address: "",
-    note: "",
-    paymentMethod: paymentMethod,
+    note: "",   
   });
 
   function handleChange(e) {
@@ -139,20 +136,25 @@ export default function CheckoutForm({ onFormChange }) {
               </div>
             </div>
 
-            {/* <div
+           
+
+            <div
               className={`flex items-center justify-between rounded-lg border-2 p-4 transition-colors ${
-                paymentMethod === "paypal" ? "border-foreground bg-secondary" : "border-border bg-background"
+                paymentMethod === "QRcode"
+                  ? "border-foreground bg-secondary"
+                  : "border-border bg-background"
               }`}
             >
               <div className="flex items-center gap-3">
-                <RadioGroupItem value="paypal" id="paypal" />
-                <Label htmlFor="paypal" className="flex cursor-pointer items-center gap-2 text-base font-medium">
-                  <Wallet className="h-5 w-5" />
-                  PayPal
+                <RadioGroupItem value="QRcode" id="QRcode" />
+                <Label
+                  htmlFor="QRcode"
+                  className="cursor-pointer text-base font-medium"
+                >
+                  QR Code 
                 </Label>
               </div>
-            </div> */}
-
+            </div>
             <div
               className={`flex items-center justify-between rounded-lg border-2 p-4 transition-colors ${
                 paymentMethod === "cod"
